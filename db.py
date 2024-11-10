@@ -17,4 +17,18 @@ CREATE TABLE IF NOT EXISTS class_table (
 cursor.executemany(""" INSERT INTO class_table (kode_kelas, waktu, keterangan) VALUES (?, ?, ?)
 """, class_data)
 
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS accounts (
+    email VARCHAR PRIMARY KEY,
+    password VARCHAR
+)
+""")
+
+accounts_data = [
+    ("tes@gmail.com","admin123"),
+    ("dzaky@gmail.com","dzaky123")
+]
+
+cursor.executemany(""" INSERT INTO accounts (email, password) VALUES (?,?) """, accounts_data)
+
 con.commit()
