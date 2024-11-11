@@ -23,6 +23,8 @@ def login():
         print("==============================================================")
         return True
     else:
+        email = None
+        password = None
         print("==============================================================")
         print(" |                       LOGIN GAGAL!                        |")
         print(" |       Email atau password salah, silahkan coba lagi       |")
@@ -35,9 +37,6 @@ block_time = 5
 
 is_authenticated = False
 while not is_authenticated:
-    email = None
-    password = None
-   
     if attempt_count >= max_attempts:
         print(f"Terlalu banyak percobaan gagal! Coba lagi dalam 5 detik.")
         time.sleep(block_time)  
