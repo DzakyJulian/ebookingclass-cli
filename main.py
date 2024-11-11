@@ -9,9 +9,6 @@ connection = sqlite3.connect("ebookingclass.db")
 cursor = connection.cursor()
 
 def login():
-    email = None
-    password = None
-
     # global email, password
     email = input("Masukkan email: ").strip()
     password = input("Masukkan password: ").strip()
@@ -38,6 +35,8 @@ block_time = 5
 
 is_authenticated = False
 while not is_authenticated:
+    email = None
+    password = None
    
     if attempt_count >= max_attempts:
         print(f"Terlalu banyak percobaan gagal! Coba lagi dalam 5 detik.")
