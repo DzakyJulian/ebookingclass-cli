@@ -9,35 +9,39 @@ connection = sqlite3.connect("ebookingclass.db")
 cursor = connection.cursor()
 
 def login():
-    # global email, password
+    # Meminta input email dan password dari pengguna
     email = input("Masukkan email: ").strip()
     password = input("Masukkan password: ").strip()
 
+    # Mengecek kredensial di tabel accounts pada database
     cursor.execute("SELECT * FROM accounts WHERE email = ? AND password = ?", (email, password))
     result = cursor.fetchone()
     
     if result:
+        # Login berhasil jika ditemukan data yang cocok
         print("==============================================================")
         print("|                    !LOGIN BERHASIL!                        |")
         print("|                     SELAMAT DATANG                         |")
         print("==============================================================")
         return True
     else:
-        email = None
-        password = None
+        # Pesan error jika login gagal
         print("==============================================================")
         print(" |                       LOGIN GAGAL!                        |")
         print(" |       Email atau password salah, silahkan coba lagi       |")
         print("==============================================================")
         return False
 
+# Variabel untuk batas dan jumlah percobaan login
 max_attempts = 10
 attempt_count = 0
-block_time = 5 
+block_time = 5  # Waktu tunggu setelah percobaan maksimal tercapai
 
 is_authenticated = False
 while not is_authenticated:
+   
     if attempt_count >= max_attempts:
+        # Pesan blokir jika terlalu banyak percobaan gagal
         print(f"Terlalu banyak percobaan gagal! Coba lagi dalam 5 detik.")
         time.sleep(block_time)  
         attempt_count = 0
@@ -46,9 +50,11 @@ while not is_authenticated:
 
     # Memanggil fungsi login dan cek autentikasi
     if login():
-        is_authenticated = True
+        is_authenticated = True  # Status login berhasil
         cursor.execute("SELECT kode_kelas, waktu, keterangan FROM class_table")
         class_table = from_db_cursor(cursor)
+        
+        # Menambahkan opsi interaksi ke tabel
         class_table.add_row(['','',''], divider=True)
         class_table.add_row(['Pesan Kelas (1)','Ingfo Alat Perlengkapan(2)','Exit(3)'])
 
@@ -89,4 +95,5 @@ while not is_authenticated:
                     inp = int(input("> "))
                     terminal_inp = inp
     else:
-        attempt_count += 1  # Tambahkan hitungan percobaan jika login gagal
+        # Menambah hitungan percobaan jika login gagal
+        attempt_count += 1
