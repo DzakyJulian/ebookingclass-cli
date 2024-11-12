@@ -1,34 +1,29 @@
 import sqlite3
-from rand_class_datagen import generate_class_data
 
-class_data = generate_class_data(10)
+def add_class(kode_kelas, waktu, keterangan):
+    connection = sqlite3.connect("ebookingclass.db")
+    cursor = connection.cursor()
 
-con = sqlite3.connect("ebookingclass.db")
-cursor = con.cursor()
+    # Menambahkan kelas baru ke database
+    cursor.execute("INSERT INTO class_table (kode_kelas, waktu, keterangan) VALUES (?, ?, ?)",
+                   (kode_kelas, waktu, keterangan))
+    connection.commit()
+    connection.close()
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS class_table (
-    kode_kelas VARCHAR PRIMARY KEY,
-    waktu VARCHAR,
-    keterangan VARCHAR
-)
-""")
+def cancel_class(kode_kelas):
+    connection = sqlite3.connect("ebookingclass.db")
+    cursor = connection.cursor()
 
-cursor.executemany(""" INSERT INTO class_table (kode_kelas, waktu, keterangan) VALUES (?, ?, ?)
-""", class_data)
+    # Cek apakah kelas yang ingin dibatalkan ada
+    cursor.execute("SELECT * FROM class_table WHERE kode_kelas = ?", (kode_kelas,))
+    class_exists = cursor.fetchone()
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS accounts (
-    email VARCHAR PRIMARY KEY,
-    password VARCHAR
-)
-""")
-
-accounts_data = [
-    ("tes@gmail.com","admin123"),
-    ("dzaky@gmail.com","dzaky123")
-]
-
-cursor.executemany(""" INSERT INTO accounts (email, password) VALUES (?,?) """, accounts_data)
-
-con.commit()
+    if class_exists:
+        # Hapus kelas dari database
+        cursor.execute("DELETE FROM class_table WHERE kode_kelas = ?", (kode_kelas,))
+        connection.commit()
+        connection.close()
+        return f"Kelas dengan kode {kode_kelas} berhasil dibatalkan."
+    else:
+        connection.close()
+        return f"Kelas dengan kode {kode_kelas} tidak ditemukan."
