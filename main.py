@@ -76,3 +76,6 @@ while True:
 
     else:
         print("Opsi tidak valid. Silakan pilih 1, 2, 3, atau 4.")  # Penanganan input yang tidak valid
+
+
+# Dzaky julian testing
