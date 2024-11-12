@@ -1,36 +1,30 @@
 import os
-from tables import alat_table
+from prettytable import PrettyTable
 
+# Menampilkan informasi alat
 def showInfoAlat():
-    os.system("cls")
-    print(terminal_inp)
-    print("==============================================================")
-    print("|                     E-Booking Class                        |")
-    print("|          [ Informasi Alat Perlengkapan Kelas ]             |")
-    print("==============================================================")
-    alat_table.add_row(['','','',''], divider=True)
-    alat_table.add_row(['Kembali (1)','Request Alat (2)','','Exit(3)'])
+    os.system("cls" if os.name == "nt" else "clear")
+    alat_table = PrettyTable()
+    alat_table.field_names = ["Alat", "Jumlah", "Status"]
+    alat_table.add_row(["Laptop", "10", "Tersedia"])
+    alat_table.add_row(["Projector", "5", "Tersedia"])
+    alat_table.add_row(["Whiteboard", "3", "Tidak Tersedia"])
     print(alat_table)
-    inp = int(input("> "))
-    terminal_inp = inp
+    input("\nTekan Enter untuk kembali ke menu utama...")
 
+# Menampilkan pesan kelas
 def showPesanKelas():
-    os.system("cls")
-    print(terminal_inp)
+    os.system("cls" if os.name == "nt" else "clear")
+    print("Masukkan kode kelas yang ingin dipesan:")
+    kode_kelas = input("> ")
+    print(f"Pesanan kelas {kode_kelas} berhasil!")
+    input("\nTekan Enter untuk kembali ke menu utama...")
+
+# Menampilkan dashboard
+def showDashboard(class_table):
+    os.system("cls" if os.name == "nt" else "clear")
     print("==============================================================")
     print("|                     E-Booking Class                        |")
-    print("|                     [ Pesan Kelas ]                        |")
-    print("==============================================================")
-    inp = int(input("Masukkan kode kelas yang ingin dipesan > "))
-    terminal_inp = inp
-    
-def showDashboard():
-    os.system("cls")
-    print(terminal_inp)
-    print("==============================================================")
-    print("|                     E-Booking Class                        |")
-    print("|                      [ Dashboard]                          |")
+    print("|                       [ Dashboard ]                        |")
     print("==============================================================")
     print(class_table)
-    inp = int(input("> "))
-    terminal_inp = inp
