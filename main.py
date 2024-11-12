@@ -1,19 +1,20 @@
-import os
-import time
-import sqlite3
-from prettytable import from_db_cursor
-from gui import showInfoAlat, showPesanKelas, showDashboard
+import os   # os: untuk operasi sistem seperti membersihkan terminal
+import time # time: untuk pengaturan waktu tunggu (delay) saat gagal login
+import sqlite3  # sqlite3: untuk menghubungkan dan beroperasi pada database SQLite
+from prettytable import from_db_cursor  # prettytable: untuk menampilkan data tabel dari database dengan format yang rapi
+from gui import showInfoAlat, showPesanKelas, showDashboard # gui: modul GUI khusus yang menyediakan fungsi untuk menampilkan elemen antarmuka seperti info alat, pesan kelas, dan dashboard
 
-# Koneksi ke database
+# Membuat koneksi ke database
 connection = sqlite3.connect("ebookingclass.db")
 cursor = connection.cursor()
 
 def login():
-    # Meminta input email dan password dari pengguna
+    # Fungsi untuk autentikasi pengguna melalui email dan password
+    # Input dan validasi terhadap tabel accounts di database
     email = input("Masukkan email: ").strip()
     password = input("Masukkan password: ").strip()
 
-    # Mengecek kredensial di tabel accounts pada database
+    # Mengecek kredensial pengguna di tabel accounts
     cursor.execute("SELECT * FROM accounts WHERE email = ? AND password = ?", (email, password))
     result = cursor.fetchone()
     
@@ -32,7 +33,7 @@ def login():
         print("==============================================================")
         return False
 
-# Variabel untuk batas dan jumlah percobaan login
+# Pengaturan batas dan jumlah percobaan login
 max_attempts = 10
 attempt_count = 0
 block_time = 5  # Waktu tunggu setelah percobaan maksimal tercapai
